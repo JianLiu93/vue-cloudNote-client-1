@@ -46,15 +46,15 @@
 		.router-link-active {
 			background: #5e6266;
 		}
-
-		.iconfont {
-			color: #fff;
-		}
 	}
 	.logout {
 		position: absolute;
 		width: 100%;
 		bottom: 20px;
 		cursor: pointer;
+
+		.iconfont {
+			color: #333;
+		}
 	}
 </style>

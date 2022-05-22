@@ -31,12 +31,16 @@ body {
   color: #2c3e50;
   margin-top: 60px;
   height: 100vw;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 .wrapper {
   display: flex;
   align-items: stretch;
 }
 .side-bar {
+  height: 100%;
   a {
     color: #444;
   }
