@@ -14,6 +14,7 @@
 
 <script>
 	import Avatar from '@/components//Avatar.vue'
+	import Auth from '@/models/auth';
 
 	export default {
 		name: 'SideBar',
@@ -24,7 +25,12 @@
 			}
 		},
 		methods: {
-			onLogout() {}
+			onLogout() {
+				Auth.logout()
+				  .then(data => {
+					  console.log(data);
+				  })
+			}
 		}
 	}
 </script>

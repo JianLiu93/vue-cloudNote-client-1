@@ -32,6 +32,13 @@
 </template>
 
 <script>
+	import Auth from '@/models/auth';
+
+	Auth.getInfo()
+	  .then(data => {
+		  console.log(data);
+	  })
+
 	export default {
 		name: 'Login',
 		data() {
@@ -78,9 +85,22 @@
 				}
 				this.register.isError = false;
 				this.register.notice = '';
+
+				Auth.register({
+					username: this.register.username,
+					password: this.register.password
+				}).then(data => {
+				console.log(data);
+				});
 			},
 
 			onLogin() {
+
+				Auth.login({username: 'hunger3', password: '123456'})
+				.then(data => {
+				console.log(data);
+				});
+
 				let valid1 = this.validUsername(this.login.username);
 				let valid2 = this.validPassword(this.login.password);
 
