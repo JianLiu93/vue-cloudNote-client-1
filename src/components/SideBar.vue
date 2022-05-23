@@ -2,8 +2,8 @@
 	<div id="side-bar">
 		<Avatar />
 		<div class="icons">
-			<router-link to="/note/1" title="笔记1"><span class="iconfont icon-note"></span></router-link>
 			<router-link to="/notebooks" title="笔记本"><span class="iconfont icon-notebook"></span></router-link>
+			<router-link to="/note/1" title="笔记1"><span class="iconfont icon-note"></span></router-link>
 			<router-link to="/trash/1" title="回收站"><span class="iconfont icon-trash"></span></router-link>
 		</div>
 		<div class="logout" @click="onLogout">
@@ -15,6 +15,7 @@
 <script>
 	import Avatar from '@/components//Avatar.vue'
 	import Auth from '@/models/auth';
+	import eventBus from '@/helpers/eventBus';
 
 	export default {
 		name: 'SideBar',
@@ -29,6 +30,7 @@
 				Auth.logout()
 				  .then(data => {
 					  console.log(data);
+					  eventBus.$emit('userInfo', {username: '未知用户'});
 					  this.$router.push({path: 'login'});
 				  })
 			}
@@ -48,10 +50,10 @@
 	}
 
 	.icons {
-		margin-top: 15px;
+		margin-top: 20px;
 		a {
 			display: block;
-			padding: 6px 0;
+			padding: 20px 10px;
 		}
 		.router-link-active {
 			background: #5e6266;

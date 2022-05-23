@@ -35,11 +35,7 @@
 
 <script>
 	import Auth from '@/models/auth';
-
-	Auth.getInfo()
-	  .then(data => {
-		  console.log(data);
-	  })
+	import eventBus from '@/helpers/eventBus';
 
 	export default {
 		name: 'Login',
@@ -90,6 +86,11 @@
 					username: this.register.username,
 					password: this.register.password
 				}).then(data => {
+					//
+					this.login.username = this.register.username;
+					this.login.password = this.register.password;
+					// 使用 eventBus 触发模块之间登录事件同步
+					eventBus.$emit('userInfo', {username: this.login.username});
 					this.$router.push({path: 'notebooks'});
 					console.log(data);
 				}).catch(data => {
@@ -117,6 +118,9 @@
 					username: this.login.username,
 					password: this.login.password
 				}).then(data => {
+					//
+					// 使用 eventBus 触发模块之间登录事件同步
+					eventBus.$emit('userInfo', {username: this.login.username});
 					this.$router.push({path: 'notebooks'});
 					console.log(data);
 				}).catch(data => {

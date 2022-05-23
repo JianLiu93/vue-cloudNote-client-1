@@ -9,13 +9,23 @@
 </template>
 
 <script>
+import Auth from '@/models/auth';
+
 	export default {
 		name: 'NotesList',
 		data() {
 			return {
 				msg: '笔记列表'
 			}
-		}
+		},
+		created() {
+			Auth.getInfo()
+			  .then(res => {
+				if(!res.isLogin) {
+					this.$router.push({path: '/login'});
+				}
+			})
+		},
 	}
 </script>
 

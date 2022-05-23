@@ -5,13 +5,23 @@
 </template>
 
 <script>
+import Auth from '@/models/auth';
+
 	export default {
 		name: 'TrashDetail',
 		data() {
 			return {
 				msg: '回收站页'
 			}
-		}
+		},
+		created() {
+			Auth.getInfo()
+			  .then(res => {
+				if(!res.isLogin) {
+					this.$router.push({path: '/login'});
+				}
+			})
+		},
 	}
 </script>
 
