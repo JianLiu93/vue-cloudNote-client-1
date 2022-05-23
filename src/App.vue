@@ -40,10 +40,7 @@ body {
   align-items: stretch;
 }
 .side-bar {
-  height: 100%;
-  a {
-    color: #444;
-  }
+  height: 98vh;
 }
 
 .btn {

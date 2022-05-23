@@ -29,6 +29,7 @@
 				Auth.logout()
 				  .then(data => {
 					  console.log(data);
+					  this.$router.push({path: 'login'});
 				  })
 			}
 		}
@@ -36,11 +37,14 @@
 </script>
 
 <style lang="less" scoped>
-	#sidebar {
+	#side-bar {
 		position: relative;
 		width: 56px;
 		text-align: center;
 		background: #2c333c;
+		.iconfont {
+			color: #fff;
+		}
 	}
 
 	.icons {
@@ -57,10 +61,6 @@
 		position: absolute;
 		width: 100%;
 		bottom: 20px;
-		cursor: pointer;
-
-		.iconfont {
-			color: #333;
-		}
+		cursor: pointer;		
 	}
 </style>

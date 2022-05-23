@@ -23,7 +23,9 @@
 							<div class="button" @click="onLogin">登录</div>
 						</div>
 						</transition>
-						<div class="return"><div class="return-button">返回</div></div>
+						<div class="return">
+							<div class="return-button" @click="$router.push({path: '/'})" >返回</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -83,24 +85,20 @@
 					this.register.notice = valid2.notice;
 					return;
 				}
-				this.register.isError = false;
-				this.register.notice = '';
 
 				Auth.register({
 					username: this.register.username,
 					password: this.register.password
 				}).then(data => {
-				console.log(data);
+					this.$router.push({path: 'notebooks'});
+					console.log(data);
+				}).catch(data => {
+					this.register.isError = true;
+					this.register.notice = data.msg;
 				});
 			},
 
 			onLogin() {
-
-				Auth.login({username: 'hunger3', password: '123456'})
-				.then(data => {
-				console.log(data);
-				});
-
 				let valid1 = this.validUsername(this.login.username);
 				let valid2 = this.validPassword(this.login.password);
 
@@ -114,8 +112,17 @@
 					this.login.notice = valid2.notice;
 					return;
 				}
-				this.login.isError = false;
-				this.login.notice = '';
+
+				Auth.login({
+					username: this.login.username,
+					password: this.login.password
+				}).then(data => {
+					this.$router.push({path: 'notebooks'});
+					console.log(data);
+				}).catch(data => {
+					this.login.isError = true;
+					this.login.notice = data.msg;
+				});
 			},
 
 			validUsername(username) {
@@ -126,8 +133,8 @@
 			},
 			validPassword(password) {
 				return {
-					isValid: /^[a-zA-Z_0-9\u4e00-\u9fa5\uf900-\ufa2d]{8,15}$/,
-					notice: '密码必须8-15个字符，可以是英文数字下划线中文',
+					isValid: /^[a-zA-Z_0-9\u4e00-\u9fa5\uf900-\ufa2d]{6,15}$/,
+					notice: '密码必须6-15个字符，可以是英文数字下划线中文',
 				}
 			},
 		},
