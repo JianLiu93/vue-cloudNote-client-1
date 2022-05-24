@@ -5,15 +5,6 @@
 				<div class="container">
 					<div class="main"></div>
 					<div class="form">
-						<h3 @click="chooseRegister">创建账户</h3>
-						<transition name="slide">
-						<div class="register" :class="{show: isShowRegister}">
-							<input type="text" v-model="register.username" placeholder="用户名">
-							<input type="text" v-model="register.password" placeholder="密码">
-							<p :class="{error: register.isError}">{{register.notice}}</p>
-							<div class="button" @click="onRegister">创建账号</div>
-						</div>
-						</transition>
 						<h3 @click="chooseLogin">登录</h3>
 						<transition name="slide">
 						<div class="login" :class="{show: isShowLogin}">
@@ -23,6 +14,17 @@
 							<div class="button" @click="onLogin">登录</div>
 						</div>
 						</transition>
+
+						<h3 @click="chooseRegister">创建账户</h3>
+						<transition name="slide">
+						<div class="register" :class="{show: isShowRegister}">
+							<input type="text" v-model="register.username" placeholder="用户名">
+							<input type="text" v-model="register.password" placeholder="密码">
+							<p :class="{error: register.isError}">{{register.notice}}</p>
+							<div class="button" @click="onRegister">创建账号</div>
+						</div>
+						</transition>
+
 						<div class="return">
 							<div class="return-button" @click="$router.push({path: '/'})" >返回</div>
 						</div>
@@ -34,15 +36,15 @@
 </template>
 
 <script>
-	import Auth from '@/models/auth';
+	// import Auth from '@/models/auth';
 	import eventBus from '@/helpers/eventBus';
 
 	export default {
 		name: 'Login',
 		data() {
 			return {
-				isShowRegister: true,
-				isShowLogin: false,
+				isShowRegister: false,
+				isShowLogin: true,
 				login: {
 					username: '',
 					password: '',
@@ -247,7 +249,7 @@
       }
     }
 
-    .login {
+    .register {
       border-top: 0;
     } 
   }

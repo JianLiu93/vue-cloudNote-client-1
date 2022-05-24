@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Auth from '@/models/auth';
+// import Auth from '@/models/auth';
 
 	export default {
 		name: 'NoteDetail',

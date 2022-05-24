@@ -14,7 +14,7 @@
 
 <script>
 	import Avatar from '@/components//Avatar.vue'
-	import Auth from '@/models/auth';
+	// import Auth from '@/models/auth';
 	import eventBus from '@/helpers/eventBus';
 
 	export default {

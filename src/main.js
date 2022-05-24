@@ -3,8 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Auth from './models/auth';
 
 Vue.config.productionTip = false
+
+window.Auth = Auth
 
 /* eslint-disable no-new */
 window.vm = new Vue({
