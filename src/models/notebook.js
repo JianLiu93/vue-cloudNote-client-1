@@ -1,4 +1,5 @@
 import request from "@/helpers/request";
+import {lastDate} from '@/helpers/util';
 
 const URL = {
 	GET: '/notebooks',
@@ -9,7 +10,19 @@ const URL = {
 
 export default {
 	getAll() {
-		return request(URL.GET);
+		return new Promise((resolve, reject) => {
+			request(URL.GET)
+			.then(res => {
+				res.data.sort((a, b) => {
+					a.createdAt - b.createdAt
+				}).forEach(item => {
+					item.friendlyCreatedAt = lastDate(item.createdAt);
+				});
+				resolve(res);
+			}).catch(err => {
+				reject(err);
+			});
+		})
 	},
 	addNotebook({title = ''} = {title:''}) {
 		return request(URL.ADD, 'POST', {title});

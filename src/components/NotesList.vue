@@ -12,10 +12,10 @@
 					<router-link v-for="item in notebooks" :key="item.id" to="/note/1" class="notebook clearfix">
 						<div>
 							<span class="iconfont icon-notebook"/>
-							<span>{{item.title}}</span><i>{{item.noteCounts}}</i>
-							<i class="action" @click.prevent.stop="onEdit(item)">编辑</i>
+							<span class="title">{{item.title}}</span><i>{{item.noteCounts}}</i>
 							<i class="action" @click.prevent.stop="onDelete(item)">删除</i>
-							<i class="date">修改时间</i>
+							<i class="action" @click.prevent.stop="onEdit(item)">编辑</i>
+							<i class="date">{{item.friendlyCreatedAt}}</i>
 						</div>
 					</router-link>
 				</div>
@@ -27,6 +27,7 @@
 <script>
 // import Auth from '@/models/auth';
 import Notebook from '@/models/notebook';
+import { lastDate } from '@/helpers/util';
 
 	export default {
 		name: 'NotesList',
@@ -64,6 +65,7 @@ import Notebook from '@/models/notebook';
 					  alert(res.msg);
 					  let notebook = res.data;
 					  notebook.noteCounts = 0;
+					  notebook.friendlyCreatedAt = lastDate(notebook.createdAt);
 					  this.notebooks.push(notebook);
 				  })
 			},

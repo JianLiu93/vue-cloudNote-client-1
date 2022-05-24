@@ -50,8 +50,8 @@
 #notes-list main .book-list i {
   font-size: 12px;
   font-weight: bold;
-  color: #999;
-  margin-left: 4px;
+  color: #b0b0b0;
+  margin-left: 8px;
 }
 #notes-list main .date,
 #notes-list main .action {
@@ -69,9 +69,15 @@
 #notes-list main a.notebook:hover {
   background-color: #f7fafd;
 }
+#notes-list main .action:hover {
+  color: #e0e0e0;
+}
 #notes-list main a.notebook div {
   border-bottom: 1px solid #ebebeb;
   padding: 12px 14px;
+}
+#notes-list main .notebook .title {
+  color: #333;
 }
 #notes-list main .error-msg {
   font-size: 12px;
