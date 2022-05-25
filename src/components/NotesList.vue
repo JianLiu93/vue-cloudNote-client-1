@@ -57,7 +57,7 @@ import { lastDate } from '@/helpers/util';
 			  this.$prompt('创建笔记本名称', '创建笔记本', {
 			  confirmButtonText: '确定',
 			  cancelButtonText: '取消',
-			  inputPattern: /^.{1, 30}$/,
+			  inputPattern: /^.{1,30}$/,
 			  inputErrorMessage: '命名不能为空，且不能超过30个字符'
 			  }).then(({ value }) => {
 			  	return Notebook.addNotebook({title: value});
@@ -70,11 +70,6 @@ import { lastDate } from '@/helpers/util';
 			  		type: 'success',
 			  		message: res.msg
 			  	});
-			  }).catch((res) => {
-			    this.$message({
-			  	type: 'error',
-			  	message: res.msg
-			    });       
 			  });
 			},
 			onEdit(notebook) {
@@ -82,7 +77,8 @@ import { lastDate } from '@/helpers/util';
 			  this.$prompt('修改笔记本名称', '修改名称', {
 			  confirmButtonText: '确定',
 			  cancelButtonText: '取消',
-			  inputPattern: /^.{1, 30}$/,
+			  inputPattern: /^.{1,30}$/,
+			  inputValue: notebook.title,
 			  inputErrorMessage: '命名不能为空，且不能超过30个字符'
 			  }).then(({ value }) => {
 				title = value;
@@ -93,11 +89,6 @@ import { lastDate } from '@/helpers/util';
 			  		type: 'success',
 			  		message: res.msg
 			  	});
-			  }).catch((res) => {
-			    this.$message({
-			  	type: 'error',
-			  	message: res.msg
-			    });       
 			  });
 			},
 			onDelete(notebook) {
@@ -114,12 +105,7 @@ import { lastDate } from '@/helpers/util';
 			  	type: 'success',
 			  	message: res.msg
 			    });
-			  }).catch((res) => {
-			    this.$message({
-			    type: 'error',
-			    message: res.msg
-			    });       
-        	  });
+			  });
 			},
 		}
 	}
