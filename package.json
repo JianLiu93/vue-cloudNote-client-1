@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "0.18.0",
+    "element-ui": "2.3.9",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
@@ -29,6 +30,8 @@
     "chalk": "^2.0.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
+    "element-theme": "^2.0.1",
+    "element-theme-chalk": "^2.15.8",
     "eslint": "^4.15.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",

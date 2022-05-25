@@ -12,9 +12,9 @@ export default {
 	getAll() {
 		return new Promise((resolve, reject) => {
 			request(URL.GET)
-			.then(res => {
+			  .then(res => {
 				res.data.sort((a, b) => {
-					a.createdAt - b.createdAt
+					return new Date(b.createdAt) - new Date(a.createdAt)
 				}).forEach(item => {
 					item.friendlyCreatedAt = lastDate(item.createdAt);
 				});

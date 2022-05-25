@@ -54,47 +54,72 @@ import { lastDate } from '@/helpers/util';
 
 		methods: {
 			onCreate() {
-				let title = window.prompt('创建笔记本名称');
-				if(!title || !title.trim()) {
-					alert('笔记本名为空！');
-					return;
-				}
-				Notebook.addNotebook({title})
-				  .then(res => {
-					  console.log(res);
-					  alert(res.msg);
-					  let notebook = res.data;
-					  notebook.noteCounts = 0;
-					  notebook.friendlyCreatedAt = lastDate(notebook.createdAt);
-					  this.notebooks.push(notebook);
-				  })
+			  this.$prompt('创建笔记本名称', '创建笔记本', {
+			  confirmButtonText: '确定',
+			  cancelButtonText: '取消',
+			  inputPattern: /^.{1, 30}$/,
+			  inputErrorMessage: '命名不能为空，且不能超过30个字符'
+			  }).then(({ value }) => {
+			  	return Notebook.addNotebook({title: value});
+			  }).then(res => {
+			  	let notebook = res.data;
+			  	notebook.noteCounts = 0;
+			  	notebook.friendlyCreatedAt = lastDate(notebook.createdAt);
+			  	this.notebooks.unshift(notebook);
+			  	this.$message({
+			  		type: 'success',
+			  		message: res.msg
+			  	});
+			  }).catch((res) => {
+			    this.$message({
+			  	type: 'error',
+			  	message: res.msg
+			    });       
+			  });
 			},
 			onEdit(notebook) {
-				let title = window.prompt('修改笔记本名称', notebook.title);
-				if(!title || !title.trim()) {
-					alert('笔记本名为空！');
-					return;
-				}
-				Notebook.updateNotebook(notebook.id, {title})
-				  .then(res => {
-					  console.log(res);
-					  alert(res.msg);
-					  notebook.title = title;
-				  })
+			  let title = '';
+			  this.$prompt('修改笔记本名称', '修改名称', {
+			  confirmButtonText: '确定',
+			  cancelButtonText: '取消',
+			  inputPattern: /^.{1, 30}$/,
+			  inputErrorMessage: '命名不能为空，且不能超过30个字符'
+			  }).then(({ value }) => {
+				title = value;
+				return Notebook.updateNotebook(notebook.id, {title});
+			  }).then(res => {
+				notebook.title = title;
+			  	this.$message({
+			  		type: 'success',
+			  		message: res.msg
+			  	});
+			  }).catch((res) => {
+			    this.$message({
+			  	type: 'error',
+			  	message: res.msg
+			    });       
+			  });
 			},
 			onDelete(notebook) {
-				let isConfirm = window.confirm('确定要删除吗？');
-				if(isConfirm) {
-				Notebook.deleteNotebook(notebook.id)
-				  .then(res => {
-					  console.log(res);
-					  alert(res.msg);
-					  const index = this.notebooks.indexOf(notebook);
-					  if(index !== -1) {
-						  this.notebooks.splice(index, 1);
-					  }
-				  });
-				}
+			  this.$alert('确定要删除吗？', '删除笔记本', {
+        	  confirmButtonText: '确定',
+			  cancelButtonText: '取消',
+			  type: 'warning'
+			  }).then(() => {
+			    return Notebook.deleteNotebook(notebook.id);
+			  }).then(res => {
+			  const index = this.notebooks.indexOf(notebook);
+			  this.notebooks.splice(index, 1);
+			  this.$message({
+			  	type: 'success',
+			  	message: res.msg
+			    });
+			  }).catch((res) => {
+			    this.$message({
+			    type: 'error',
+			    message: res.msg
+			    });       
+        	  });
 			},
 		}
 	}
