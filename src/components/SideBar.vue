@@ -3,8 +3,8 @@
 		<Avatar />
 		<div class="icons">
 			<router-link to="/notebooks" title="笔记本"><span class="iconfont icon-notebook"></span></router-link>
-			<router-link to="/note/1" title="笔记1"><span class="iconfont icon-note"></span></router-link>
-			<router-link to="/trash/1" title="回收站"><span class="iconfont icon-trash"></span></router-link>
+			<router-link to="/note" title="笔记1"><span class="iconfont icon-note"></span></router-link>
+			<router-link to="/trash" title="回收站"><span class="iconfont icon-trash"></span></router-link>
 		</div>
 		<div class="logout" @click="onLogout">
 			<span class="iconfont icon-logout"></span>

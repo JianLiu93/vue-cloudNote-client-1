@@ -1,0 +1,71 @@
+#note-side-bar {
+  position: relative;
+  width: 300px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: #eee;
+}
+#note-side-bar > header {
+  background: #fefefe;
+}
+#note-side-bar .add-note {
+  position: absolute;
+  right: 6px;
+  top: 12px;
+  color: #666;
+  font-size: 12px;
+  padding: 2px 4px;
+  box-shadow: 0px 0px 2px 0px #ccc;
+  background: #fff;
+  border: none;
+  z-index: 1;
+}
+#note-side-bar .notebook-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+  height: 44px;
+  line-height: 40px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+#note-side-bar .el-dropdown-link {
+  cursor: pointer;
+}
+#note-side-bar .el-dropdown-link .iconfont {
+  font-size: 10px;
+}
+#note-side-bar .el-dropdown-item {
+  width: 200px;
+}
+#note-side-bar .menu {
+  display: flex;
+}
+#note-side-bar .menu .tags {
+  flex: 1;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+#note-side-bar .menu .tags:last-child {
+  border-right: none;
+}
+#note-side-bar .notes li:nth-child(odd) {
+  background-color: #f7f7f7;
+}
+#note-side-bar .notes li a {
+  display: flex;
+  padding: 3px 0;
+  font-size: 12px;
+  border: 2px solid transparent;
+}
+#note-side-bar .notes li .router-link-exact-active {
+  border: 2px solid #81c0f3;
+  border-radius: 3px;
+}
+#note-side-bar .notes li span {
+  padding: 4px 10px;
+  flex: 1;
+}

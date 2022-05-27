@@ -26,12 +26,12 @@ export default new Router({
       component: NotesList
     },
     {
-      path: '/note/:noteId',
+      path: '/note',
       name: 'NoteDetail',
       component: NoteDetail
     },
     {
-      path: '/trash/:noteId',
+      path: '/trash',
       name: 'TrashDetail',
       component: TrashDetail
     },
