@@ -33,7 +33,7 @@ function request(url, type = 'GET', data = {}) {
 		}).catch(err => {
 				Message({
 					type: 'error',
-					message: res.data.msg
+					message: '网络异常'
 				});
 				reject({msg: 'connection error'});
 		});

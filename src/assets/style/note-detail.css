@@ -13,11 +13,8 @@
   display: flex;
   flex-direction: column;
 }
-.note-content .note-content-ct {
-  height: 100%;
-}
 .note-content .note-bar {
-  padding: 4px 20px;
+  padding: 8px 20px;
   border-bottom: 1px solid #ddd;
   text-align: left;
 }
@@ -50,6 +47,7 @@
 }
 .note-content .editor {
   height: calc(100% - 70px);
+  overflow: auto;
   position: relative;
 }
 .note-content textarea,
@@ -60,6 +58,7 @@
   width: 100%;
   height: 100%;
   padding: 10px 20px;
+  text-align: left;
 }
 .note-content textarea {
   border: none;

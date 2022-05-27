@@ -31,6 +31,7 @@
 import Notebook from '@/models/notebook';
 import Notes from '@/models/notes';
 import eventBus from '@/helpers/eventBus';
+import {lastDate} from '@/helpers/util';
 
 	export default {
 		name: 'NoteDetail',
@@ -49,9 +50,9 @@ import eventBus from '@/helpers/eventBus';
 				|| this.notebooks[0] || {};
 				return Notes.getAll({ notebookId: this.curBook.id });
 			}).then(res => {
-				this.notes = res.data
-				this.$emit('update:notes', this.notes)
-				eventBus.$emit('update:notes', this.notes)
+				this.notes = res.data;
+				this.$emit('update:notes', this.notes);
+				eventBus.$emit('update:notes', this.notes);
 			})
 		},
 		methods: {
@@ -72,7 +73,9 @@ import eventBus from '@/helpers/eventBus';
 				Notes.addNote({notebookId: this.curBook.id})
 				.then(res => {
 					console.log(res);
+					this.$message.success(res.msg);
 					this.notes.unshift(res.data);
+					this.$emit('update:notes', this.notes);
 				});
 			}
 		}

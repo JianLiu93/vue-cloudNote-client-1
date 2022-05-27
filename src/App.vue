@@ -1,6 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{height:h+'px'}">
     <div class="wrapper">
+      
     <side-bar class="side-bar" />    
     <router-view/>
     </div>
@@ -13,6 +14,11 @@ import SideBar from '@/components/SideBar.vue'
 export default {
   name: 'App',
   components: { SideBar },
+  data() {
+    return {
+    h: document.documentElement.clientHeight,
+    }
+  }
 }
 </script>
 
@@ -30,7 +36,7 @@ body {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  height: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -38,9 +44,10 @@ body {
 .wrapper {
   display: flex;
   align-items: stretch;
+  height: 100%;
 }
 .side-bar {
-  height: 98vh;
+  height: 100%;
 }
 
 .btn {

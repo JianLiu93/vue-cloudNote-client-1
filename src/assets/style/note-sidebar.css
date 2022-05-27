@@ -52,6 +52,10 @@
 #note-side-bar .menu .tags:last-child {
   border-right: none;
 }
+#note-side-bar .notes {
+  max-height: calc(100% - 75px);
+  overflow: auto;
+}
 #note-side-bar .notes li:nth-child(odd) {
   background-color: #f7f7f7;
 }
