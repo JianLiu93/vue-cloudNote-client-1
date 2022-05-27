@@ -64,6 +64,7 @@ import eventBus from '@/helpers/eventBus';
 				  .then(res => {
 					this.curBook = this.notebooks.find(item => item.id == notebookId);
 					this.notes = res.data;
+					this.$emit('update:notes', this.notes)
 					console.log(res.data);
 				});
 			},

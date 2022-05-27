@@ -1,3 +1,12 @@
+.note-empty {
+  flex: 1;
+  font-size: 50px;
+  color: #ccc;
+  text-align: center;
+  margin-top: 100px;
+
+  &.hidden {display: none;}
+}
 
 .note-content {
   flex: 1;
@@ -6,13 +15,6 @@
 
   .note-content-ct {
     height: 100%;
-  }
-
-  .note-empty {
-    font-size: 50px;
-    color: #ccc;
-    text-align: center;
-    margin-top: 100px;
   }
 
   .note-bar {
@@ -76,4 +78,6 @@
   code {
     color: #f66;
   }
-}  
+
+  &.hidden {display: none;}
+}
