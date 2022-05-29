@@ -70,6 +70,7 @@ let md = new MarkdownIt();
 			...mapActions(['checkLogin', 'updateNote', 'deleteNote']),
 
 			onUpdateNote: _.debounce(function() {
+				if(!this.curNote.id) return;
 				this.updateNote({noteId: this.curNote.id,
 				title: this.curNote.title, content: this.curNote.content
 				}).then(() => {

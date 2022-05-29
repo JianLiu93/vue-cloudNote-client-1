@@ -13,9 +13,8 @@
 </template>
 
 <script>
-	// import Auth from '@/models/auth';
 	import Avatar from '@/components/Avatar.vue'
-	import eventBus from '@/helpers/eventBus';
+    import { mapActions } from 'vuex'
 
 	export default {
 		name: 'SideBar',
@@ -25,13 +24,10 @@
 			}
 		},
 		methods: {
+			...mapActions(['logout']),
+
 			onLogout() {
-				Auth.logout()
-				  .then(data => {
-					  console.log(data);
-					  this.$store.commit('logout');
-					  this.$router.push({path: 'login'});
-				  })
+				this.logout({path: '/login'});
 			}
 		}
 	}

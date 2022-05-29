@@ -34,10 +34,21 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 		created() {
 			this.getNotebooks()
 			  .then(() => {
-				this.setCurBook({curBookId: this.$route.query.notebookId});
+				if(this.$route.query.notebookId) {
+				  this.setCurBook({curBookId: this.$route.query.notebookId});
+				}
 				return this.getNotes({notebookId: this.curBook.id});
 			}).then(() => {
-				this.setCurNote({curNoteId: this.$route.query.noteId});
+				if(this.$route.query.noteId) {
+				  this.setCurNote({curNoteId: this.$route.query.noteId});
+				  this.$router.replace({
+					  path: '/note',
+					  query: {
+						  notebookId: this.curBook.id,
+						  noteId: this.curNote.id
+					  }
+				  })
+				}
 			})
 		},
 
@@ -47,15 +58,14 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 		},
 		
 		computed: {
-			...mapGetters(['notebooks', 'notes', 'curBook']),
+			...mapGetters(['notebooks', 'notes', 'curBook', 'curNote']),
 		},
 
 		methods: {
 			...mapMutations(['setCurBook', 'setCurNote']),
 
 			...mapActions([
-				'getNotebooks', 'addNotebook', 'updateNotebook', 'deleteNotebook',
-				'getNotes', 'addNote'
+				'getNotebooks', 'getNotes', 'addNote'
 			]),
 
 			handleCommand(notebookId) {
