@@ -37,7 +37,8 @@
 
 <script>
 	// import Auth from '@/models/auth';
-	import eventBus from '@/helpers/eventBus';
+import eventBus from '@/helpers/eventBus';
+import { mapGetters, mapActions } from 'vuex'
 
 	export default {
 		name: 'Login',
@@ -60,6 +61,11 @@
 			}
 		},
 		methods: {
+			...mapActions({
+				loginUser: 'login',
+				registerUser: 'register'
+			}),
+			
 			chooseRegister() {
 				this.isShowRegister = true;
 				this.isShowLogin = false;
@@ -84,15 +90,12 @@
 					return;
 				}
 
-				Auth.register({
+				this.registerUser({
 					username: this.register.username,
 					password: this.register.password
 				}).then(data => {
-					//
-					this.login.username = this.register.username;
-					this.login.password = this.register.password;
-					// 使用 eventBus 触发模块之间登录事件同步
-					eventBus.$emit('userInfo', {username: this.login.username});
+					this.register.isError = false;
+					this.register.notice = '';
 					this.$router.push({path: 'notebooks'});
 					console.log(data);
 				}).catch(data => {
@@ -116,13 +119,12 @@
 					return;
 				}
 
-				Auth.login({
+				this.loginUser({
 					username: this.login.username,
 					password: this.login.password
 				}).then(data => {
-					//
-					// 使用 eventBus 触发模块之间登录事件同步
-					eventBus.$emit('userInfo', {username: this.login.username});
+					this.login.isError = false;
+					this.login.notice = '';
 					this.$router.push({path: 'notebooks'});
 					console.log(data);
 				}).catch(data => {

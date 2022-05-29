@@ -1,0 +1,51 @@
+.note-sidebar {
+  width: 300px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: #eee;
+}
+.note-sidebar .notebook-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+  height: 44px;
+  line-height: 40px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  background: #fff;
+}
+.note-sidebar .menu {
+  display: flex;
+}
+.note-sidebar .menu .tags {
+  flex: 1;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.note-sidebar .menu .tags:last-child {
+  border-right: none;
+}
+.note-sidebar .notes {
+  max-height: calc(100% - 75px);
+  overflow: auto;
+}
+.note-sidebar .notes li:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+.note-sidebar .notes li a {
+  display: flex;
+  padding: 3px 0;
+  font-size: 12px;
+  border: 2px solid transparent;
+}
+.note-sidebar .notes li .router-link-exact-active {
+  border: 1px solid #81c0f3;
+  border-radius: 3px;
+}
+.note-sidebar .notes li span {
+  padding: 4px 10px;
+  flex: 1;
+}

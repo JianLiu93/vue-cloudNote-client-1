@@ -1,47 +1,29 @@
 <template>
 	<div class="user-avatar">
-		<span class="avatar" :title="user.username">{{slug}}</span>
+		<span class="avatar" :title="username">{{slug}}</span>
 	</div>
 </template>
 
 <script>
 	// import Auth from '@/models/auth';
-	import eventBus from '@/helpers/eventBus';
+import { mapGetters, mapActions } from 'vuex';
 
 	export default {
 		name: 'Avatar',
 		data() {
 			return {
-				user: {
-					username: '未知用户',
-				},
 			}
 		},
 		computed: {
-			slug() {
-				return this.user.username.charAt(0) || '未';
-			}
-		},
-
-		created() {
-			// 触发登录同步事件
-			eventBus.$on('userInfo', user => {
-				console.log(user);
-				this.user.username = user.username;
-			});
-
-			Auth.getInfo()
-			  .then(res => {
-				  console.log(res);
-				  if(res.isLogin) {
-					  this.user.username = res.data.username;
-				  }
-			  });
+			...mapGetters(['username', 'slug'])
 		},
 
 		methods: {
-			onLog() {}
-		}
+			...mapActions(['checkLogin'])
+		},
+		created() {
+			this.checkLogin();
+		},
 	}
 </script>
 
@@ -53,7 +35,8 @@
 	text-align: center;
 	line-height: 32px;
 	border-radius: 50%;
-	background: #f2b81c;
+	background: #409eff;
+	//   #f2b81c
 	color: #fff;
 	text-shadow: 1px 0 1px #795c19;
 	font-weight: bold;

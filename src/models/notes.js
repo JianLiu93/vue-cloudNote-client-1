@@ -25,6 +25,7 @@ export default {
 			});
 		})
 	},
+	
 	addNote({notebookId}, {title = '', content = ''} = {title:'', content: ''}) {
 		return new Promise((resolve, reject) => {
 			request(URL.ADD.replace('notebookId', notebookId), 'POST', {title, content})
@@ -37,9 +38,11 @@ export default {
 			  });
 		})
 	},
+
 	updateNote({noteId}, {title, content}) {
 		return request(URL.UPDATE.replace('noteId', noteId), 'PATCH', {title, content});
 	},
+
 	deleteNote({noteId}) {
 		return request(URL.DELETE.replace('noteId', noteId), 'DELETE');
 	},

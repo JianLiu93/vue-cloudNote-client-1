@@ -1,7 +1,7 @@
 <template>
 	<div id="note-side-bar">
 		<header>
-		<div class="btn add-note" @click="add">添加笔记</div>
+		<div class="btn add-note" @click="onAdd">添加笔记</div>
 		<el-dropdown class="notebook-title" @command="handleCommand" placement="bottom">
 			<div class="el-dropdown-link">
 				<span>{{curBook.title}}</span><span class="iconfont icon-down"/>
@@ -28,55 +28,46 @@
 </template>
 
 <script>
-import Notebook from '@/models/notebook';
-import Notes from '@/models/notes';
-import eventBus from '@/helpers/eventBus';
-import {lastDate} from '@/helpers/util';
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 
 	export default {
-		name: 'NoteDetail',
-		data() {
-			return {
-				notebooks: [],
-				notes: [],
-				curBook: {id: ''},
-			}
-		},
 		created() {
-			Notebook.getAll()
-			  .then(res => {
-				this.notebooks = res.data;
-				this.curBook = this.notebooks.find(item => item.id == this.$route.query.notebookId)
-				|| this.notebooks[0] || {};
-				return Notes.getAll({ notebookId: this.curBook.id });
-			}).then(res => {
-				this.notes = res.data;
-				this.$emit('update:notes', this.notes);
-				eventBus.$emit('update:notes', this.notes);
+			this.getNotebooks()
+			  .then(() => {
+				this.setCurBook({curBookId: this.$route.query.notebookId});
+				return this.getNotes({notebookId: this.curBook.id});
+			}).then(() => {
+				this.setCurNote({curNoteId: this.$route.query.noteId});
 			})
 		},
+
+		data() {
+			return {
+			}
+		},
+		
+		computed: {
+			...mapGetters(['notebooks', 'notes', 'curBook']),
+		},
+
 		methods: {
+			...mapMutations(['setCurBook', 'setCurNote']),
+
+			...mapActions([
+				'getNotebooks', 'addNotebook', 'updateNotebook', 'deleteNotebook',
+				'getNotes', 'addNote'
+			]),
+
 			handleCommand(notebookId) {
 				if(notebookId === 'trash') {
 					return;
 				}
+        		this.setCurBook({ curBookId: notebookId});
+				this.getNotes({notebookId});
 				this.$router.push({ path: `/note?notebookId=${notebookId}`});
-				Notes.getAll({notebookId})
-				  .then(res => {
-					this.curBook = this.notebooks.find(item => item.id == notebookId);
-					this.notes = res.data;
-					this.$emit('update:notes', this.notes)
-					console.log(res.data);
-				});
 			},
-			add() {
-				Notes.addNote({notebookId: this.curBook.id})
-				.then(res => {
-					console.log(res);
-					this.$message.success(res.msg);
-					this.notes.unshift(res.data);
-					this.$emit('update:notes', this.notes);
-				});
+			onAdd() {
+				this.addNote({notebookId: this.curBook.id});
 			}
 		}
 	}

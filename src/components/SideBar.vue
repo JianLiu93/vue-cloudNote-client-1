@@ -2,7 +2,7 @@
 	<div id="side-bar">
 		<Avatar />
 		<div class="icons">
-			<router-link to="/notebooks" title="笔记本"><span class="iconfont icon-notebook"></span></router-link>
+			<router-link to="/notebooks" title="笔记本列表"><span class="iconfont icon-notebook"></span></router-link>
 			<router-link to="/note" title="笔记1"><span class="iconfont icon-note"></span></router-link>
 			<router-link to="/trash" title="回收站"><span class="iconfont icon-trash"></span></router-link>
 		</div>
@@ -13,8 +13,8 @@
 </template>
 
 <script>
-	import Avatar from '@/components//Avatar.vue'
 	// import Auth from '@/models/auth';
+	import Avatar from '@/components/Avatar.vue'
 	import eventBus from '@/helpers/eventBus';
 
 	export default {
@@ -22,7 +22,6 @@
   		components: { Avatar },
 		data() {
 			return {
-
 			}
 		},
 		methods: {
@@ -30,7 +29,7 @@
 				Auth.logout()
 				  .then(data => {
 					  console.log(data);
-					  eventBus.$emit('userInfo', {username: '未知用户'});
+					  this.$store.commit('logout');
 					  this.$router.push({path: 'login'});
 				  })
 			}

@@ -13,9 +13,9 @@
 						<div>
 							<span class="iconfont icon-notebook"/>
 							<span class="title">{{item.title}}</span><i>{{item.noteCounts}}</i>
-							<i class="action" @click.prevent.stop="onDelete(item)">删除</i>
-							<i class="action" @click.prevent.stop="onEdit(item)">编辑</i>
-							<i class="date">{{item.friendlyCreatedAt}}</i>
+							<i class="delete" @click.prevent.stop="onDelete(item)">删除</i>
+							<i class="edit" @click.prevent.stop="onEdit(item)">编辑</i>
+							<i class="date">{{item.createdAtFriendly}}创建</i>
 						</div>
 					</router-link>
 				</div>
@@ -26,33 +26,33 @@
 
 <script>
 // import Auth from '@/models/auth';
-import Notebook from '@/models/notebook';
-import { lastDate } from '@/helpers/util';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 	export default {
 		name: 'NotesList',
 		data() {
 			return {
-				notebooks: [],
 			}
 		},
 
 		created() {
-			Auth.getInfo()
-			  .then(res => {
-				if(!res.isLogin) {
-					this.$router.push({path: '/login'});
-				}
-			})
+			this.checkLogin({path: '/login'})
+			this.getNotebooks()
+		},
 
-			Notebook.getAll()
-			  .then(res => {
-				  this.notebooks = res.data;
-				  console.log(res.data);
-			  })
+		computed: {
+			...mapGetters(['notebooks']),
 		},
 
 		methods: {
+			...mapActions([
+				'getNotebooks',
+			 	'addNotebook',
+				'updateNotebook',
+				'deleteNotebook',
+				'checkLogin']
+			),
+
 			onCreate() {
 			  this.$prompt('创建笔记本名称', '创建笔记本', {
 			  confirmButtonText: '确定',
@@ -60,20 +60,10 @@ import { lastDate } from '@/helpers/util';
 			  inputPattern: /^.{1,30}$/,
 			  inputErrorMessage: '命名不能为空，且不能超过30个字符'
 			  }).then(({ value }) => {
-			  	return Notebook.addNotebook({title: value});
-			  }).then(res => {
-			  	let notebook = res.data;
-			  	notebook.noteCounts = 0;
-			  	notebook.friendlyCreatedAt = lastDate(notebook.createdAt);
-			  	this.notebooks.unshift(notebook);
-			  	this.$message({
-			  		type: 'success',
-			  		message: res.msg
-			  	});
+			  	this.addNotebook({title: value});
 			  });
 			},
 			onEdit(notebook) {
-			  let title = '';
 			  this.$prompt('修改笔记本名称', '修改名称', {
 			  confirmButtonText: '确定',
 			  cancelButtonText: '取消',
@@ -81,14 +71,7 @@ import { lastDate } from '@/helpers/util';
 			  inputValue: notebook.title,
 			  inputErrorMessage: '命名不能为空，且不能超过30个字符'
 			  }).then(({ value }) => {
-				title = value;
-				return Notebook.updateNotebook(notebook.id, {title});
-			  }).then(res => {
-				notebook.title = title;
-			  	this.$message({
-			  		type: 'success',
-			  		message: res.msg
-			  	});
+				this.updateNotebook({notebookId: notebook.id, title: value});
 			  });
 			},
 			onDelete(notebook) {
@@ -97,14 +80,7 @@ import { lastDate } from '@/helpers/util';
 			  cancelButtonText: '取消',
 			  type: 'warning'
 			  }).then(() => {
-			    return Notebook.deleteNotebook(notebook.id);
-			  }).then(res => {
-			  const index = this.notebooks.indexOf(notebook);
-			  this.notebooks.splice(index, 1);
-			  this.$message({
-			  	type: 'success',
-			  	message: res.msg
-			    });
+			    this.deleteNotebook({notebookId: notebook.id});
 			  });
 			},
 		}

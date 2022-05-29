@@ -56,7 +56,8 @@
   margin-left: 8px;
 }
 #notes-list main .date,
-#notes-list main .action {
+#notes-list main .edit,
+#notes-list main .delete {
   float: right;
   margin-left: 10px;
 }
@@ -71,8 +72,11 @@
 #notes-list main a.notebook:hover {
   background-color: #f7fafd;
 }
-#notes-list main .action:hover {
-  color: #e0e0e0;
+#notes-list main .edit:hover {
+  color: #7db3d5;
+}
+#notes-list main .delete:hover {
+  color: #f56c6c;
 }
 #notes-list main a.notebook div {
   border-bottom: 1px solid #ebebeb;

@@ -16,7 +16,8 @@ export default {
 				res.data.sort((a, b) => {
 					return new Date(b.createdAt) - new Date(a.createdAt)
 				}).forEach(item => {
-					item.friendlyCreatedAt = lastDate(item.createdAt);
+					item.createdAtFriendly = lastDate(item.createdAt);
+					item.updatedAtFriendly = lastDate(item.updatedAt);
 				});
 				resolve(res);
 			}).catch(err => {
@@ -25,7 +26,16 @@ export default {
 		})
 	},
 	addNotebook({title = ''} = {title:''}) {
-		return request(URL.ADD, 'POST', {title});
+		return new Promise((resolve, reject) => {
+			request(URL.ADD, 'POST', {title})
+			  .then(res => {
+				res.data.createdAtFriendly = lastDate(res.data.createdAt);
+				res.data.updatedAtFriendly = lastDate(res.data.updatedAt);
+				resolve(res);
+			}).catch(err => {
+				  reject(err);
+			  });
+		})
 	},
 	updateNotebook(notebookId, {title = ''} = {title:''}) {
 		return request(URL.UPDATE.replace('id', notebookId), 'PATCH', {title});
