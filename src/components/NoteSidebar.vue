@@ -19,7 +19,7 @@
 		<ul class="notes">
 			<li v-for="note in notes" :key="note.id">
 				<router-link :to="`/note?notebookId=${curBook.id}&noteId=${note.id}`">
-					<span class="date">{{note.updatedAtFriendly}}</span>
+					<span class="date" :title="'创建于 '+ note.createdAtFriendly">{{note.updatedAtFriendly}}</span>
 					<span class="title">{{note.title}}</span>
 				</router-link>
 			</li>
@@ -41,15 +41,25 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 			}).then(() => {
 				if(this.$route.query.noteId) {
 				  this.setCurNote({curNoteId: this.$route.query.noteId});
+				}
+				if(this.curNote.id) {
 				  this.$router.replace({
 					  path: '/note',
 					  query: {
 						  notebookId: this.curBook.id,
 						  noteId: this.curNote.id
 					  }
-				  })
+				  });
+				} else if(this.notes[0]) {
+				  this.$router.replace({
+					  path: '/note',
+					  query: {
+						  notebookId: this.curBook.id,
+						  noteId: this.curNote.id || this.notes[0].id
+					  }
+				  });	
 				}
-			})
+			});
 		},
 
 		data() {
@@ -69,12 +79,29 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 			]),
 
 			handleCommand(notebookId) {
-				if(notebookId === 'trash') {
-					return;
-				}
+				if(notebookId === 'trash') return;
         		this.setCurBook({ curBookId: notebookId});
-				this.getNotes({notebookId});
-				this.$router.push({ path: `/note?notebookId=${notebookId}`});
+				this.getNotes({notebookId})
+				  .then(() => {
+          			this.setCurNote();
+					if(this.curNote.id) {
+				  		this.$router.replace({
+					  	path: '/note',
+					  	query: {
+						  notebookId: this.curBook.id,
+						  noteId: this.curNote.id
+					  	}
+				  		});
+					} else if(this.notes[0]) {
+				  		this.$router.replace({
+					  	path: '/note',
+					  	query: {
+						  notebookId: this.curBook.id,
+						  noteId: this.curNote.id || this.notes[0].id
+					  	}
+				  		});	
+					}
+				});
 			},
 			onAdd() {
 				this.addNote({notebookId: this.curBook.id});

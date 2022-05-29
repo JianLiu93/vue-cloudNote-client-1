@@ -29,7 +29,6 @@ import NoteSidebar from '@/components/NoteSidebar.vue';
 import _ from 'lodash';
 import MarkdownIt from 'markdown-it';
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
-// import Auth from '@/models/auth';
 
 let md = new MarkdownIt();
 
@@ -40,12 +39,11 @@ let md = new MarkdownIt();
 		created() {
 			this.checkLogin({path: '/login'});
 		},
-		// 路由组件内直接定义路由导航守卫
+		// 组件内直接定义路由导航守卫
 		beforeRouteUpdate(to, from, next) {
 			console.log('before router update');
 			if(to.query.noteId) {
-				this.setCurNote({curNoteId: to.query.noteId})
-				console.log(this.curNote);
+				this.setCurNote({curNoteId: to.query.noteId});
 			}
 			next();
 		},
