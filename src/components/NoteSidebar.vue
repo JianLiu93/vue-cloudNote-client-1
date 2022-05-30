@@ -17,8 +17,9 @@
 			<div class="tags">标题</div>
 		</div>
 		<ul class="notes">
-			<li v-for="note in notes" :key="note.id">
+			<li v-for="note in notes" :key="note.id" @keyup.delete="$emit('update:onDeleteNote')">
 				<router-link :to="`/note?notebookId=${curBook.id}&noteId=${note.id}`">
+				 <!-- @keyup.delete="$emit('update:onDeleteNote')" -->
 					<span class="date" :title="'创建于 '+ note.createdAtFriendly">{{note.updatedAtFriendly}}</span>
 					<span class="title">{{note.title}}</span>
 				</router-link>
@@ -105,7 +106,16 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 			},
 			onAdd() {
 				if(this.curBook.id) {
-				  this.addNote({notebookId: this.curBook.id});
+				  this.addNote({notebookId: this.curBook.id})
+				  .then(() => {
+					  this.$router.replace({
+					  	path: '/note',
+					  	query: {
+						  notebookId: this.curBook.id,
+						  noteId: this.notes[0].id
+					  	}
+				  	  });
+				  })
 				} else {
 					 this.$message.warning({message: '请先创建新笔记本'});
 				}

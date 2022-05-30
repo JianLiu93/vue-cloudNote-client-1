@@ -1,6 +1,6 @@
 <template>
 	<div id="note" class="detail" >
-		<note-sidebar @update:notes="value => notes = value"></note-sidebar>
+		<note-sidebar @update:notes="value => notes = value" @update:onDeleteNote="onDeleteNote"></note-sidebar>
 		
 		<div class="note-empty" :class="{hidden: showContent !== 'emptyNote'}">请选择要编辑的笔记或创建新笔记</div>
 		<div class="note-empty" :class="{hidden: showContent !== 'emptyBook'}">
@@ -91,7 +91,12 @@ let md = new MarkdownIt();
 			onDeleteNote() {
 				this.deleteNote({noteId: this.curNote.id})
 				  .then(data => {
-					  this.$router.replace({path: `/note?notebookId=${this.$route.query.notebookId}`});
+          			  this.setCurNote();
+					  console.log(this.curNote);
+					  this.$router.replace({
+            			path: '/note',
+            			query: {notebookId: this.curBook.id, noteId: this.curNote.id}
+            		  });
 				  }).catch(err => {
 					  this.$message.error(err);
 				  });

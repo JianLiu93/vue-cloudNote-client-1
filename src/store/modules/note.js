@@ -11,7 +11,7 @@ const getters = {
 
 	curNote: state => {
 		if(!state.notes) return {title: '', content: ''}
-    	if(!state.curNoteId) return {title: '', content: ''}
+    	if(!state.curNoteId) return state.notes[0] || {title: '', content: ''}
 		return state.notes.find(item => item.id.toString() === state.curNoteId.toString()) || {title: '', content: ''}
 	}
 }

@@ -7,7 +7,7 @@
         <div class="tags">标题</div>
       </div>
       <ul class="notes">
-        <li v-for="note in trashNotes" :key="note.id">
+        <li v-for="note in trashNotes" :key="note.id" @keyup.delete="onDelete">
           <router-link :to="`/trash?noteId=${note.id}`">
             <span class="date">{{note.updatedAtFriendly}}</span>
             <span class="title">{{note.title}}</span>          
