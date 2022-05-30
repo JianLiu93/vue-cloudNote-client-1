@@ -1,8 +1,12 @@
 <template>
 	<div id="note" class="detail" >
 		<note-sidebar @update:notes="value => notes = value"></note-sidebar>
-		<div class="note-empty" :class="{hidden: curNote.id}">请选择要编辑的笔记</div>
-		<div class="note-content" :class="{hidden: !curNote.id}">
+		
+		<div class="note-empty" :class="{hidden: showContent !== 'emptyNote'}">请选择要编辑的笔记或创建新笔记</div>
+		<div class="note-empty" :class="{hidden: showContent !== 'emptyBook'}">
+			<router-link to="/notebooks">请先创建新笔记本</router-link>
+		</div>
+		<div class="note-content" :class="{hidden: showContent !== 'content'}">
 			<div class="note-bar">
 				<span>创建日期：{{curNote.createdAtFriendly}}</span>
         		<span> | </span>
@@ -55,10 +59,15 @@ let md = new MarkdownIt();
 			}
 		},
 		computed: {
-			...mapGetters(['notes', 'curNote']),
+			...mapGetters(['notes', 'curNote', 'curBook']),
 
 			previewContent() {
 				return md.render(this.curNote.content || '');
+			},
+			showContent() {
+				if(!this.curBook.id) return 'emptyBook';
+				else if(!this.curNote.id) return 'emptyNote';
+				else return 'content';
 			}
 		},
 

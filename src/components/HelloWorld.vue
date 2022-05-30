@@ -1,34 +1,17 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>BUTTONS</h2>
-    <div>
- <el-row>
-  <el-button>默认按钮</el-button>
-  <el-button type="primary">主要按钮</el-button>
-  <el-button type="success">成功按钮</el-button>
-  <el-button type="info">信息按钮</el-button>
-  <el-button type="warning">警告按钮</el-button>
-  <el-button type="danger">危险按钮</el-button>
-</el-row>
-
-<el-row>
-  <el-button plain>朴素按钮</el-button>
-  <el-button type="primary" plain>主要按钮</el-button>
-  <el-button type="success" plain>成功按钮</el-button>
-  <el-button type="info" plain>信息按钮</el-button>
-  <el-button type="warning" plain>警告按钮</el-button>
-  <el-button type="danger" plain>危险按钮</el-button>
-</el-row>
-
-<el-row>
-  <el-button round>圆角按钮</el-button>
-  <el-button type="primary" round>主要按钮</el-button>
-  <el-button type="success" round>成功按钮</el-button>
-  <el-button type="info" round>信息按钮</el-button>
-  <el-button type="warning" round>警告按钮</el-button>
-  <el-button type="danger" round>危险按钮</el-button>
-</el-row>
+    <div class="title"><h1>欢迎使用 易用云笔记</h1></div>
+    <div class="intro">
+      <div class="text">{{intro1}}</div>
+      <div class="text">{{intro2}}</div>
+    </div>
+    <div class="button">
+      <el-row class="register">
+        <el-button type="primary" plain @click="toRegister">点击注册立即体验 GO</el-button>
+      </el-row>
+      <el-row class="login">
+        <el-button plain @click="$router.push('/note')">我已注册，立刻记一笔</el-button>
+      </el-row>
     </div>
   </div>
 </template>
@@ -38,18 +21,53 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Evernote App'
+      intro1: '这是一款轻量级便捷易用的云端笔记应用，助你随时记录、整理、云端同步笔记，捕捉每个灵光一闪的时刻',
+      intro2: '帮助你保存高价值信息、整理知识，记录备忘，提升工作学习效率',
+    }
+  },
+  methods: {
+    toRegister() {
+      this.$store.commit('setLoginShow', false); 
+      this.$router.push({path: '/login'});
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-/* a {
-  color: #42b983;
-} */
+<style lang="less" scoped>
+.hello {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  .title {
+    margin-top: 80px;
+    font-size: 40px;
+  }
+  .intro {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 24px;
+    .text {
+      margin-bottom: 20px;
+    }
+  }
+}
+.button {
+  flex: 1;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
 .el-row {
-  margin: 20px 0;
+  margin-bottom: 30px;
+  width: 100%;
+  &.login {
+  }
+  &.register {
+  }
 }
 </style>

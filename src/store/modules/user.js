@@ -3,7 +3,9 @@ import router from '@/router/index'
 import { Message } from 'element-ui'
 
 const state = {
-	user: null
+	user: null,
+	isShowLogin: true,
+	refreshList: false
 }
 
 const getters = {
@@ -18,6 +20,12 @@ const mutations = {
 	},
 	logout(state) {
 		state.user = null
+	},
+	setLoginShow(state, payload) {
+		state.isShowLogin = payload
+	},
+	setRefreshList(state, payload) {
+		state.refreshList = payload
 	}
 }
 

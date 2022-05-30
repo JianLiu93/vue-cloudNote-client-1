@@ -23,8 +23,8 @@
         <span> | </span>
         <span> 所属笔记本: {{belongTo}}</span>
 
-        <a class="btn action" @click="onRevert">恢复笔记</a>
-        <a class="btn action" @click="onDelete">彻底删除</a>
+        <a class="btn action rev" @click.prevent="onRevert">恢复笔记</a>
+        <a class="btn action del" @click.prevent="onDelete">彻底删除</a>
       </div>
       <div class="note-title">
         <span>{{curTrashNote.title}}</span>
@@ -102,11 +102,11 @@ let md = new MarkdownIt();
       this.getTrashNotes()
         .then(() => {
           if(this.$route.query.noteId) {
-            this.setCurTrashNote({curTrashNoteId: this.$router.query.noteId});
-            this.$router.replace({
-              path: '/trash', query: {noteId: this.curTrashNote.id}
-            });
+            this.setCurTrashNote({curTrashNoteId: this.$route.query.noteId});
           }
+          this.$router.replace({
+              path: '/trash', query: {noteId: this.curTrashNote.id}
+          });
         });
 		},
 
@@ -128,12 +128,15 @@ let md = new MarkdownIt();
   flex: 1;
   background: #fff;
 
-  note-bar {
-    .action {
-      float: right;
-      margin-left: 10px;
-      padding: 2px 4px;
-      font-size: 12px;
+  .note-bar {
+    .action.btn {
+      font-size: 14px;
+      &.rev:hover {
+        background: #add6ff;
+      }
+      &.del:hover {
+        background: #f56c6c;
+      }
     }
   }
 }

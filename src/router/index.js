@@ -35,5 +35,10 @@ export default new Router({
       name: 'TrashDetail',
       component: () => import('@/components/TrashDetail.vue')
     },
+    {
+      path: '/refresh',
+      name: 'Refresh',
+      component: () => import('@/components/Refresh.vue')
+    },
   ]
 })

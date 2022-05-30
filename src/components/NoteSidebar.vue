@@ -37,7 +37,7 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 				if(this.$route.query.notebookId) {
 				  this.setCurBook({curBookId: this.$route.query.notebookId});
 				}
-				return this.getNotes({notebookId: this.curBook.id});
+				if(this.curBook.id) return this.getNotes({ notebookId: this.curBook.id})
 			}).then(() => {
 				if(this.$route.query.noteId) {
 				  this.setCurNote({curNoteId: this.$route.query.noteId});
@@ -104,7 +104,11 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 				});
 			},
 			onAdd() {
-				this.addNote({notebookId: this.curBook.id});
+				if(this.curBook.id) {
+				  this.addNote({notebookId: this.curBook.id});
+				} else {
+					 this.$message.warning({message: '请先创建新笔记本'});
+				}
 			}
 		}
 	}

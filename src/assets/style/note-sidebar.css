@@ -15,10 +15,13 @@
   color: #666;
   font-size: 12px;
   padding: 2px 4px;
-  box-shadow: 0px 0px 2px 0px #ccc;
+  box-shadow: 0px 0px 4px 0px #ccc;
   background: #fff;
   border: none;
   z-index: 1;
+}
+#note-side-bar .add-note:hover {
+  background: #eee;
 }
 #note-side-bar .notebook-title {
   display: block;
@@ -66,7 +69,7 @@
   border: 2px solid transparent;
 }
 #note-side-bar .notes li .router-link-exact-active {
-  border: 1px solid #81c0f3;
+  border: 2px solid #add6ff;
   border-radius: 3px;
 }
 #note-side-bar .notes li span {

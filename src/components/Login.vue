@@ -9,7 +9,7 @@
 						<transition name="slide">
 						<div class="login" :class="{show: isShowLogin}">
 							<input type="text" v-model="login.username" placeholder="请输入用户名">
-							<input type="text" v-model="login.password" placeholder="请输入密码">
+							<input type="text" v-model="login.password" @keyup.enter="onLogin" placeholder="请输入密码">
 							<p :class="{error: login.isError}">{{login.notice}}</p>
 							<div class="button" @click="onLogin">登录</div>
 						</div>
@@ -17,16 +17,16 @@
 
 						<h3 @click="chooseRegister">创建账户</h3>
 						<transition name="slide">
-						<div class="register" :class="{show: isShowRegister}">
-							<input type="text" v-model="register.username" placeholder="用户名">
-							<input type="text" v-model="register.password" placeholder="密码">
+						<div class="register" :class="{show: !isShowLogin}">
+							<input type="text" v-model="register.username" placeholder="请输入用户名">
+							<input type="text" v-model="register.password" @keyup.enter="onRegister" placeholder="请输入密码">
 							<p :class="{error: register.isError}">{{register.notice}}</p>
 							<div class="button" @click="onRegister">创建账号</div>
 						</div>
 						</transition>
 
 						<div class="return">
-							<div class="return-button" @click="$router.push({path: '/'})" >返回</div>
+							<div class="return-button" @click="$router.replace({path: '/'})" >返回</div>
 						</div>
 					</div>
 				</div>
@@ -36,16 +36,12 @@
 </template>
 
 <script>
-	// import Auth from '@/models/auth';
-import eventBus from '@/helpers/eventBus';
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 	export default {
 		name: 'Login',
 		data() {
 			return {
-				isShowRegister: false,
-				isShowLogin: true,
 				login: {
 					username: '',
 					password: '',
@@ -55,24 +51,27 @@ import { mapGetters, mapActions } from 'vuex'
 				register: {
 					username: '',
 					password: '',
-					notice: '账号密码不记得也找回不了哦',
+					notice: '账号密码请牢记',
 					isError: false
 				},
 			}
 		},
+		computed: {
+			...mapState({isShowLogin: state => state.user.isShowLogin}),
+		},
 		methods: {
+			...mapMutations(['setRefreshList']),
+
 			...mapActions({
 				loginUser: 'login',
 				registerUser: 'register'
 			}),
 			
 			chooseRegister() {
-				this.isShowRegister = true;
-				this.isShowLogin = false;
+      			this.$store.commit('setLoginShow', false); 
 			},
 			chooseLogin() {
-				this.isShowRegister = false;
-				this.isShowLogin = true;
+      			this.$store.commit('setLoginShow', true); 
 			},
 
 			onRegister() {
@@ -96,12 +95,13 @@ import { mapGetters, mapActions } from 'vuex'
 				}).then(data => {
 					this.register.isError = false;
 					this.register.notice = '';
-					this.$router.push({path: 'notebooks'});
+					this.setRefreshList(true);
+					this.$router.replace({path: '/refresh'});
 					console.log(data);
 				}).catch(data => {
 					this.register.isError = true;
 					this.register.notice = data.msg;
-				});
+				})
 			},
 
 			onLogin() {
@@ -125,12 +125,13 @@ import { mapGetters, mapActions } from 'vuex'
 				}).then(data => {
 					this.login.isError = false;
 					this.login.notice = '';
-					this.$router.push({path: 'notebooks'});
+					this.setRefreshList(true);
+					this.$router.replace({path: '/refresh'});
 					console.log(data);
 				}).catch(data => {
 					this.login.isError = true;
 					this.login.notice = data.msg;
-				});
+				})
 			},
 
 			validUsername(username) {
@@ -150,7 +151,9 @@ import { mapGetters, mapActions } from 'vuex'
 </script>
 
 <style lang="less" scoped>
-@bgimg: url(//cloud.hunger-valley.com/17-12-13/38476998.jpg-middle);
+// @bg_img: url(//cloud.hunger-valley.com/17-12-13/38476998.jpg-middle);
+@bg_img: url('../../static/img/login-bg.jpg');
+@line_color: #e0e0e0;
 
 .mask {
 	position: fixed;
@@ -169,24 +172,26 @@ import { mapGetters, mapActions } from 'vuex'
 }
 .container {
 	display: flex;
-	width: 800px;
+	width: 820px;
 	height: 500px;
 	margin: 0px auto;
 	background-color: #fff;
 	border-radius: 2px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+	caret-color: transparent;
 	transition: all .3s ease;
 
 	.main {
 	  flex: 1;
-	  background: #36bc64 @bgimg center center no-repeat;
-	  background-size: contain;
+	  background: #fff  @bg_img center center no-repeat;
+	  // #36bc64
+	  background-size: cover;
 	}
 	
 	.form {
 	  position: relative;
-      width: 270px;
-      border-left: 1px solid #ccc;
+      width: 280px;
+      border-left: 1px solid #bbb;
       overflow: hidden;
 	//   display: flex;
 	//   flex-direction: column;
@@ -195,15 +200,16 @@ import { mapGetters, mapActions } from 'vuex'
           margin-top: -1px;
           font-weight: normal;
           font-size: 16px;
-          border-top: 1px solid #eee;
+          border-top: 1px solid @line_color;
           cursor: pointer;
           &:nth-of-type(2){
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid @line_color;
         }
     }
 
     .button {
-      background-color: #2bb964;
+      background-color: #409eff;
+	  // #2bb964
       height: 36px;
       line-height: 36px;
       text-align: center;
@@ -217,7 +223,7 @@ import { mapGetters, mapActions } from 'vuex'
 	// 标签切换动画效果
     .login, .register {
       padding: 0 20px;
-      border-top: 1px solid #eee;
+      border-top: 1px solid @line_color;
       height: 0;
       overflow: hidden;
       transition: height .3s;
@@ -236,6 +242,7 @@ import { mapGetters, mapActions } from 'vuex'
         outline: none;
         font-size: 14px;
         margin-top: 10px;
+		caret-color: #333;
       }
 
       input:focus {
@@ -247,7 +254,7 @@ import { mapGetters, mapActions } from 'vuex'
         color: #444;
       }
       .error {
-        color: red;
+        color: #f00;
       }
     }
 
@@ -261,12 +268,14 @@ import { mapGetters, mapActions } from 'vuex'
 		bottom: 30px;
 		width: 100%;
 		.return-button {
-		  margin: 0 50px;
+		  margin: 0 80px;
 		  padding: 10px 0;
-		  font-weight: normal;
+		  font-weight: 700;
 		  font-size: 16px;
 		  border: 1px solid #ccc;
-          border-radius: 4px;
+          border-radius: 6px;
+		  color: #fff;
+		  background: #5bcfc4;
 		  cursor: pointer;
 		}
   }

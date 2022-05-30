@@ -3,7 +3,7 @@
     <div class="wrapper">
       
     <side-bar class="side-bar" />    
-    <router-view/>
+    <router-view v-if="isRouterAlive" />
     </div>
   </div>
 </template>
@@ -14,10 +14,27 @@ import SideBar from '@/components/SideBar.vue'
 export default {
   name: 'App',
   components: { SideBar },
+
+  provide(){
+    return{
+      reload: this.reload
+    }
+  },
+
   data() {
     return {
     h: document.documentElement.clientHeight,
+    isRouterAlive: true
     }
+  },
+  methods: {
+    reload (){
+      this.isRouterAlive = false;
+      this.$nextTick(() => {
+        console.log('reload');
+        this.isRouterAlive = true;
+      })
+    },
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<div id="notes-list" class="detail">
+	<div id="notes-list" class="detail" v-show="isShow">
 		<header>
 			<a href="#" class="btn" @click.prevent="onCreate">
 				<span class="iconfont icon-plus"/><i>新建笔记本</i>
@@ -8,6 +8,7 @@
 		<main>
 			<div class="layout">
 				<h3>笔记本列表 ({{notebooks.length}})</h3>
+				<div class="empty" v-show="notebooks.length === 0">笔记本为空哦，请创建新笔记本</div>
 				<div class="book-list">
 					<router-link v-for="item in notebooks" :key="item.id" :to="`/note?notebookId=${item.id}`" class="notebook clearfix">
 						<div>
@@ -26,25 +27,36 @@
 
 <script>
 // import Auth from '@/models/auth';
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
 
 	export default {
 		name: 'NotesList',
+		inject: ['reload'],
+
 		data() {
 			return {
+				isShow: false
 			}
 		},
 
 		created() {
-			this.checkLogin({path: '/login'})
-			this.getNotebooks()
+			this.checkLogin({path: '/login'});
+		},
+		mounted() {
+			if(this.refreshList === true) {
+				this.setRefreshList(false);
+			}
+			this.getNotebooks().then(() => {this.isShow = true;})
 		},
 
 		computed: {
+			...mapState({refreshList: state => state.user.refreshList}),
 			...mapGetters(['notebooks']),
 		},
 
 		methods: {
+			...mapMutations(['setRefreshList']),
+
 			...mapActions([
 				'getNotebooks',
 			 	'addNotebook',

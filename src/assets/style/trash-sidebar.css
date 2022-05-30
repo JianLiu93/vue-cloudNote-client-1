@@ -42,7 +42,7 @@
   border: 2px solid transparent;
 }
 .note-sidebar .notes li .router-link-exact-active {
-  border: 1px solid #81c0f3;
+  border: 2px solid #add6ff;
   border-radius: 3px;
 }
 .note-sidebar .notes li span {
