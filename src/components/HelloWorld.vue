@@ -10,13 +10,15 @@
         <el-button type="primary" @click="toRegister">点击注册立即体验 GO</el-button>
       </el-row>
       <el-row class="login">
-        <el-button plain @click="$router.push('/note')">我已注册，立刻记一笔</el-button>
+        <el-button plain @click="toCheck">我已注册，立刻记一笔</el-button>
       </el-row>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
   name: 'HelloWorld',
   data () {
@@ -25,10 +27,22 @@ export default {
       intro2: '帮助你保存高价值信息、整理知识，记录备忘，提升工作学习效率',
     }
   },
+  computed: {
+		...mapGetters(['check_log'])
+  },
   methods: {
+		...mapMutations(['setLoginShow']),
+
     toRegister() {
       this.$store.commit('setLoginShow', false); 
       this.$router.push({path: '/login'});
+    },
+    toCheck() {
+      if(this.check_log) return this.$router.push('/note');
+      else {
+			  this.setLoginShow(true);
+        return this.$router.push('/login');
+      }
     }
   }
 }

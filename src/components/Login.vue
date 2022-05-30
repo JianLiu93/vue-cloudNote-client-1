@@ -5,6 +5,7 @@
 				<div class="container">
 					<div class="main"></div>
 					<div class="form">
+						<div class="no-login" v-show="!check_log">
 						<h3 @click="chooseLogin">登录</h3>
 						<transition name="slide">
 						<div class="login" :class="{show: isShowLogin}">
@@ -24,9 +25,20 @@
 							<div class="button" @click="onRegister">创建账号</div>
 						</div>
 						</transition>
-
 						<div class="return">
-							<div class="return-button" @click="$router.replace({path: '/'})" >返回</div>
+							<div class="return-button" @click="$router.replace({path: '/'})">返回主页</div>
+						</div>
+						</div>
+
+						<div class="user" v-show="check_log">
+						<div class="user-avatar">
+							<span class="avatar" :title="username">{{slug}}</span>
+							<div class="name">{{username}}</div>
+						</div>
+						<div class="return">
+							<div class="return-button" @click="onLogout" >重新登录</div>
+							<div class="return-button" @click="$router.replace({path: '/'})">返回主页</div>
+						</div>
 						</div>
 					</div>
 				</div>
@@ -58,13 +70,15 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 		},
 		computed: {
 			...mapState({isShowLogin: state => state.user.isShowLogin}),
+			...mapGetters(['username', 'slug', 'check_log']),
 		},
 		methods: {
 			...mapMutations(['setNewList']),
 
 			...mapActions({
 				loginUser: 'login',
-				registerUser: 'register'
+				registerUser: 'register',
+				logout: 'logout'
 			}),
 			
 			chooseRegister() {
@@ -126,7 +140,6 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 					this.login.isError = false;
 					this.login.notice = '';
 					this.setNewList();
-					debugger
 					this.$router.replace({path: '/refresh'});
 					console.log(data);
 				}).catch(data => {
@@ -147,6 +160,9 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 					notice: '密码必须6-15个字符，可以是英文数字下划线中文',
 				}
 			},
+			onLogout() {
+				this.logout({path: '/login'});
+			}
 		},
 	}
 </script>
@@ -194,8 +210,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
       width: 280px;
       border-left: 1px solid #bbb;
       overflow: hidden;
-	//   display: flex;
-	//   flex-direction: column;
+
         h3 {
           padding: 10px 20px;
           margin-top: -1px;
@@ -263,22 +278,44 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
       border-top: 0;
     } 
   }
+.return {
+	position: absolute;
+	bottom: 40px;
+	width: 100%;
 
-  .return {
-	  	position: absolute;
-		bottom: 30px;
-		width: 100%;
-		.return-button {
-		  margin: 0 80px;
-		  padding: 10px 0;
-		  font-weight: 700;
-		  font-size: 16px;
-		  border: 1px solid #ccc;
-          border-radius: 6px;
-		  color: #fff;
-		  background: #5bcfc4;
-		  cursor: pointer;
-		}
+	.return-button {
+		margin: 20px 80px;
+		padding: 10px 0px;
+		font-weight: 700;
+		font-size: 16px;
+		border: 1px solid #ccc;
+		border-radius: 6px;
+		color: #fff;
+		background: #5bcfc4;
+		cursor: pointer;
+	}
+}
+  .user-avatar {
+	margin-top: 80px;
+	.avatar {
+	display: inline-block;
+	width: 140px;
+	height: 140px;
+	text-align: center;
+	line-height: 136px;
+	border-radius: 50%;
+	background: #409eff;
+	color: #fff;
+	text-shadow: 1px 0 1px #795c19;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 100px;
+	}
+	.name {
+		margin-top: 20px;
+		text-align: center;
+		font: 30px bold;
+	}
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
 	<div class="user-avatar">
-		<span class="avatar" :title="username">{{slug}}</span>
+		<span class="avatar" :title="username" @click="$router.replace({path: '/login'})">{{slug}}</span>
 	</div>
 </template>
 
@@ -43,5 +43,6 @@ import { mapGetters, mapActions } from 'vuex';
 	text-transform: uppercase;
 	font-size: 18px;
 	margin-top: 20px;
+	cursor: pointer;
 }
 </style>

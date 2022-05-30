@@ -9,8 +9,8 @@ const state = {
 
 const getters = {
 	username: state => (!!state.user) ? state.user.username : '未知用户',
-
 	slug: state => (!!state.user) ? state.user.username.charAt(0) : '未',
+	check_log: state => !!state.user,
 }
 
 const mutations = {
