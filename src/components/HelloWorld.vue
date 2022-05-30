@@ -7,7 +7,7 @@
     </div>
     <div class="button">
       <el-row class="register">
-        <el-button type="primary" plain @click="toRegister">点击注册立即体验 GO</el-button>
+        <el-button type="primary" @click="toRegister">点击注册立即体验 GO</el-button>
       </el-row>
       <el-row class="login">
         <el-button plain @click="$router.push('/note')">我已注册，立刻记一笔</el-button>

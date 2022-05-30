@@ -60,7 +60,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 			...mapState({isShowLogin: state => state.user.isShowLogin}),
 		},
 		methods: {
-			...mapMutations(['setRefreshList']),
+			...mapMutations(['setNewList']),
 
 			...mapActions({
 				loginUser: 'login',
@@ -95,7 +95,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 				}).then(data => {
 					this.register.isError = false;
 					this.register.notice = '';
-					this.setRefreshList(true);
+					this.setNewList();
 					this.$router.replace({path: '/refresh'});
 					console.log(data);
 				}).catch(data => {
@@ -125,7 +125,8 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 				}).then(data => {
 					this.login.isError = false;
 					this.login.notice = '';
-					this.setRefreshList(true);
+					this.setNewList();
+					debugger
 					this.$router.replace({path: '/refresh'});
 					console.log(data);
 				}).catch(data => {

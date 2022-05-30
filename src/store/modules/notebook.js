@@ -4,6 +4,7 @@ import { Message } from 'element-ui'
 const state = {
 	notebooks: null,
 	curBookId: null,
+	getNewList: true
 }
 
 const getters = {
@@ -33,14 +34,19 @@ const mutations = {
 	},
 	setCurBook(state, payload) {
 		state.curBookId = payload.curBookId
+	},
+	setNewList(state) {
+		state.getNewList = true
 	}
 }
 
 const actions = {
 	getNotebooks({commit}) {
+		if(state.getNewList === false) return Promise.resolve()
 		return Notebook.getAll()
 		  .then(res => {
 			commit('setNotebooks', {notebooks: res.data})
+			state.getNewList = false
 		})
 	},
 	addNotebook({commit}, payload) {

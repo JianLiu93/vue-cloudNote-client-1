@@ -5,7 +5,6 @@ import { Message } from 'element-ui'
 const state = {
 	user: null,
 	isShowLogin: true,
-	refreshList: false
 }
 
 const getters = {
@@ -24,9 +23,6 @@ const mutations = {
 	setLoginShow(state, payload) {
 		state.isShowLogin = payload
 	},
-	setRefreshList(state, payload) {
-		state.refreshList = payload
-	}
 }
 
 const actions = {

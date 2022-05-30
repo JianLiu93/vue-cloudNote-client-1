@@ -63,6 +63,7 @@ let md = new MarkdownIt();
       'deleteTrashNote', 'revertTrashNote', 'getNotebooks']),
 
       onRevert() {
+        if(!this.curTrashNote.id) return this.$message.error('笔记不存在或未选中！');
         this.$confirm('将恢复该笔记至原位，确定吗？', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -79,6 +80,7 @@ let md = new MarkdownIt();
           });
       },
       onDelete() {
+        if(!this.curTrashNote.id) return this.$message.error('笔记不存在或未选中！');
         this.$confirm('彻底删除后笔记将无法恢复，确定吗？', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

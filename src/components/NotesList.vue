@@ -43,19 +43,14 @@ import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
 			this.checkLogin({path: '/login'});
 		},
 		mounted() {
-			if(this.refreshList === true) {
-				this.setRefreshList(false);
-			}
 			this.getNotebooks().then(() => {this.isShow = true;})
 		},
 
 		computed: {
-			...mapState({refreshList: state => state.user.refreshList}),
 			...mapGetters(['notebooks']),
 		},
 
 		methods: {
-			...mapMutations(['setRefreshList']),
 
 			...mapActions([
 				'getNotebooks',

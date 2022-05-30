@@ -40,5 +40,9 @@ export default new Router({
       name: 'Refresh',
       component: () => import('@/components/Refresh.vue')
     },
+    {
+      path: '*',
+      component: () => import('@/components/NotFound.vue'),
+    },
   ]
 })
