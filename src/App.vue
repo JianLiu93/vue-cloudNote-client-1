@@ -40,6 +40,7 @@ export default {
 </script>
 
 <style lang="less">
+// @import '//at.alicdn.com/t/font_496303_exkj65zylocu9pb9.css';
 @import '//at.alicdn.com/t/font_496303_kqrjhri8l25d0a4i.css';
 @import './assets/style/reset.css';
 

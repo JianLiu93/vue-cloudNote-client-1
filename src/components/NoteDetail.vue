@@ -14,15 +14,16 @@
         		<span> | </span>
 				<span>{{statusText}}</span>
 				<span class="iconfont icon-delete" @click="onDeleteNote"/>
-				<span class="iconfont icon-fullscreen" @click="onMarkdown"/>
+				<span class="iconfont" @click="onMarkdown" :class="isShowPreview? 'icon-fullscreen' : 'icon-fullscreen'"/>
 			</div>
 			<div class="note-title">
 				<input type="text" v-model="curNote.title" @keydown="statusText='正在输入...'" @input="onUpdateNote" placeholder="输入标题">
 			</div>
 			<div class="editor">
-				<textarea v-show="!isShowPreview" v-model="curNote.content" @input="onUpdateNote"
-				@keydown="statusText='正在输入...'" name="" id="" placeholder="请输入内容，支持 Markdown语法"/>
-				<div class="preview markdown" v-show="isShowPreview" v-html="previewContent"></div>
+          		<codemirror v-show="!isShowPreview" v-model="curNote.content" :options="cmOptions"
+				  @input="onUpdateNote" @inputRead="statusText='正在输入...'" placeholder="请输入内容，支持 Markdown语法"></codemirror>
+				  
+				<div id="theme" class="preview markdown-body" v-show="isShowPreview" v-html="previewContent"></div>
 			</div>
 		</div>
 	</div>
@@ -33,12 +34,21 @@ import NoteSidebar from '@/components/NoteSidebar.vue';
 import _ from 'lodash';
 import MarkdownIt from 'markdown-it';
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
-
-let md = new MarkdownIt();
+//  codemirror 组件引入
+import { codemirror } from 'vue-codemirror';
+import 'codemirror/mode/markdown/markdown.js';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/neat.css';
+// 引入markdown 样式
+import '../assets/theme/github-markdown.css';
+import prism from 'markdown-it-prism';
+import 'prismjs';
+import "prismjs/components/prism-clike"
+import "prismjs/components/prism-java"
 
 	export default {
 		name: 'NoteDetail',
-  		components: { NoteSidebar },
+  		components: { NoteSidebar, codemirror },
 		
 		created() {
 			this.checkLogin({path: '/login'});
@@ -55,14 +65,25 @@ let md = new MarkdownIt();
 		data() {
 			return {
 				isShowPreview: false,
-				statusText: '未编辑'
+				statusText: '未编辑',
+
+				cmOptions: {
+					tabSize: 4,
+					mode: 'text/x-markdown',
+					theme: 'neat',
+					lineNumbers: false,
+					line: true,
+				},
 			}
 		},
 		computed: {
 			...mapGetters(['notes', 'curNote', 'curBook']),
 
 			previewContent() {
-				return md.render(this.curNote.content || '');
+				// 通常的默认值
+				const md = new MarkdownIt({html: true});
+  				md.use(prism);
+				return md.render(this.curNote.content || '请输入内容，支持 Markdown语法');
 			},
 			showContent() {
 				if(!this.curBook.id) return 'emptyBook';

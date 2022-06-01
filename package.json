@@ -14,7 +14,11 @@
     "axios": "0.18.0",
     "element-ui": "2.3.9",
     "markdown-it": "12.0.4",
+    "markdown-it-highlightjs": "3.4.0",
+    "markdown-it-prism": "2.1.8",
+    "prismjs": "^1.28.0",
     "vue": "^2.5.2",
+    "vue-codemirror": "4.0.5",
     "vue-router": "^3.0.1",
     "vuex": "3.4.0"
   },
