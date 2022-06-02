@@ -42,9 +42,15 @@ import 'codemirror/theme/neat.css';
 // 引入markdown 样式
 import '../assets/theme/github-markdown.css';
 import prism from 'markdown-it-prism';
-import 'prismjs';
-import "prismjs/components/prism-clike"
-import "prismjs/components/prism-java"
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-markup";
+import "prismjs/components/prism-css";
+import 'prismjs/themes/prism-okaidia.css';
+// 通常的默认值
+const md = new MarkdownIt({html: true});
+md.use(prism, {defaultLanguage: 'clike'});
 
 	export default {
 		name: 'NoteDetail',
@@ -80,9 +86,6 @@ import "prismjs/components/prism-java"
 			...mapGetters(['notes', 'curNote', 'curBook']),
 
 			previewContent() {
-				// 通常的默认值
-				const md = new MarkdownIt({html: true});
-  				md.use(prism);
 				return md.render(this.curNote.content || '请输入内容，支持 Markdown语法');
 			},
 			showContent() {
