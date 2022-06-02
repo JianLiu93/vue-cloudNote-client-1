@@ -20,9 +20,10 @@
 				<input type="text" v-model="curNote.title" @keydown="statusText='正在输入...'" @input="onUpdateNote" placeholder="输入标题">
 			</div>
 			<div class="editor">
+				<div style="height:calc(100% - 25px)">
           		<codemirror v-show="!isShowPreview" v-model="curNote.content" :options="cmOptions"
 				  @input="onUpdateNote" @inputRead="statusText='正在输入...'" placeholder="请输入内容，支持 Markdown语法"></codemirror>
-				  
+				</div>
 				<div id="theme" class="preview markdown-body" v-show="isShowPreview" v-html="previewContent"></div>
 			</div>
 		</div>
@@ -79,6 +80,7 @@ md.use(prism, {defaultLanguage: 'clike'});
 					theme: 'neat',
 					lineNumbers: false,
 					line: true,
+					viewportMargin: Infinity, 
 				},
 			}
 		},
@@ -144,6 +146,9 @@ md.use(prism, {defaultLanguage: 'clike'});
 
 	.note-content {
 		flex: 1;
+	}
+	::v-deep .CodeMirror-scroll {
+		height: 300px;
 	}
 }
 </style>

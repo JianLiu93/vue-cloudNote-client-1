@@ -47,6 +47,9 @@ export default {
 body {
   background: #eee;
 		&::-webkit-scrollbar{width:0;}
+    ul, ol {
+      list-style: none;
+    }
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -78,5 +81,8 @@ body {
   border: none;
   box-shadow: 0px 0px 2px 0px #ccc;
   cursor: pointer;
+}
+.CodeMirror {
+  height: auto !important;  /* 编辑器盒子高度自适应 */
 }
 </style>

@@ -30,7 +30,7 @@
         <span>{{curTrashNote.title}}</span>
       </div>
       <div class="editor">
-        <div class="preview markdown" v-html="previewContent"></div>
+        <div class="preview markdown-body" v-html="previewContent"></div>
       </div>
     </div>
 	</div>
@@ -39,8 +39,18 @@
 <script>
 import MarkdownIt from 'markdown-it';
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
-
-let md = new MarkdownIt();
+// 引入markdown 样式
+import '../assets/theme/github-markdown.css';
+import prism from 'markdown-it-prism';
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-markup";
+import "prismjs/components/prism-css";
+import 'prismjs/themes/prism-okaidia.css';
+// 通常的默认值
+const md = new MarkdownIt({html: true});
+md.use(prism, {defaultLanguage: 'clike'});
 
 	export default {
 		name: 'TrashDetail',
