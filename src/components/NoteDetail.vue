@@ -14,7 +14,7 @@
         		<span> | </span>
 				<span>{{statusText}}</span>
 				<span class="iconfont icon-delete" @click="onDeleteNote"/>
-				<span class="iconfont" @click="onMarkdown" :class="isShowPreview? 'icon-fullscreen' : 'icon-fullscreen'"/>
+				<span class="iconfont" @click="onMarkdown" :class="isShowPreview? 'icon-eye' : 'icon-edit'"/>
 			</div>
 			<div class="note-title">
 				<input type="text" v-model="curNote.title" @keydown="statusText='正在输入...'" @input="onUpdateNote" placeholder="输入标题">
@@ -71,7 +71,7 @@ md.use(prism, {defaultLanguage: 'clike'});
 		data() {
 			return {
 				isShowPreview: false,
-				statusText: '未编辑',
+				statusText: '已保存',
 
 				cmOptions: {
 					tabSize: 4,
