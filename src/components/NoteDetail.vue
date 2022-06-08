@@ -17,12 +17,12 @@
 				<span class="iconfont" @click="onMarkdown" :class="isShowPreview? 'icon-eye' : 'icon-edit'"/>
 			</div>
 			<div class="note-title">
-				<input type="text" v-model="curNote.title" @keydown="statusText='正在输入...'" @input="onUpdateNote" placeholder="输入标题">
+				<input type="text" v-model="curNote.title" @keydown="statusText='正在输入...'" @input="onUpdateTitle" placeholder="输入标题">
 			</div>
 			<div class="editor">
 				<div style="height:calc(100% - 25px)">
-          		<codemirror v-show="!isShowPreview" v-model="curNote.content" :options="cmOptions"
-				  @input="onUpdateNote" @inputRead="statusText='正在输入...'" placeholder="请输入内容，支持 Markdown语法"></codemirror>
+          		<codemirror v-show="!isShowPreview" :value="curNote.content" :options="cmOptions"
+				  @input="onUpdateNote" @inputRead="statusText = '正在输入...'" @keyHandled="onUpdateStatus" placeholder="请输入内容，支持 Markdown语法"></codemirror>
 				</div>
 				<div id="theme" class="preview markdown-body" v-show="isShowPreview" v-html="previewContent"></div>
 			</div>
@@ -40,6 +40,7 @@ import { codemirror } from 'vue-codemirror';
 import 'codemirror/mode/markdown/markdown.js';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/neat.css';
+import 'codemirror/addon/display/placeholder.js';
 // 引入markdown 样式
 import '../assets/theme/github-markdown.css';
 import prism from 'markdown-it-prism';
@@ -52,6 +53,8 @@ import 'prismjs/themes/prism-okaidia.css';
 // 通常的默认值
 const md = new MarkdownIt({html: true});
 md.use(prism, {defaultLanguage: 'clike'});
+
+let statusTimer = null;
 
 	export default {
 		name: 'NoteDetail',
@@ -102,7 +105,21 @@ md.use(prism, {defaultLanguage: 'clike'});
 
 			...mapActions(['checkLogin', 'updateNote', 'deleteNote']),
 
-			onUpdateNote: _.debounce(function() {
+			onUpdateNote: _.debounce(function(newText) {
+				if(!this.curNote.id) return;
+				if(this.curNote.content === newText) return;
+				this.curNote.content = newText;
+				this.updateNote({noteId: this.curNote.id,
+				title: this.curNote.title, content: this.curNote.content
+				}).then(() => {
+					  this.statusText = '已保存';
+				  }).catch(err => {
+					console.log(err);
+					  this.statusText = '保存失败';
+				  });
+			}, 1000),
+
+			onUpdateTitle: _.debounce(function() {
 				if(!this.curNote.id) return;
 				this.updateNote({noteId: this.curNote.id,
 				title: this.curNote.title, content: this.curNote.content
@@ -112,7 +129,15 @@ md.use(prism, {defaultLanguage: 'clike'});
 					console.log(err);
 					  this.statusText = '保存失败';
 				  });
-			}, 500),
+			}, 1000),
+
+			onUpdateStatus: function() {
+				if(statusTimer) {clearTimeout(statusTimer);}
+				this.statusText = '正在输入...';
+				statusTimer = setTimeout(() => {
+					this.statusText = '已保存';
+				},800);
+			},
 
 			onDeleteNote() {
 				this.deleteNote({noteId: this.curNote.id})
@@ -130,7 +155,7 @@ md.use(prism, {defaultLanguage: 'clike'});
 			onMarkdown() {
 				this.isShowPreview = !this.isShowPreview;
 				this.statusText = this.isShowPreview ? 'markdown预览中' : '已保存';
-			}
+			},
 		}
 	}
 </script>
