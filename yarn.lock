@@ -87,10 +87,23 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@icon-park/vue@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.npmmirror.com/@icon-park/vue/-/vue-1.4.0.tgz#3f1cc198e8b9d4d17c23b1c1aa6ec62994b4435c"
+  integrity sha512-3FPCY7qooxzeRE5B3UHkneLSRGliVkcFpYfdhtLCnSz50kWH4FYNnZXMbdCIBgwNchhVbz88/7I9iu2KHge5BA==
+  dependencies:
+    "@vue/babel-helper-vue-jsx-merge-props" "^1.0.0"
+    csstype "^3.0.3"
+
 "@types/q@^1.5.1":
   version "1.5.5"
   resolved "https://registry.npmmirror.com/@types/q/-/q-1.5.5.tgz#75a2a8e7d8ab4b230414505d92335d1dcb53a6df"
   integrity sha512-L28j2FcJfSZOnL1WBjDYp2vUHCeIFlyYI/53EwD/rKUBQ7MtUUfbQWiyKJGpcnv4/WgrhWsFKrcPstcAt/J0tQ==
+
+"@vue/babel-helper-vue-jsx-merge-props@^1.0.0":
+  version "1.2.1"
+  resolved "https://registry.npmmirror.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.2.1.tgz#31624a7a505fb14da1d58023725a4c5f270e6a81"
+  integrity sha512-QOi5OW45e2R20VygMSNhyQHvpdUwQZqGPc748JLGCYEy+yp8fNFNdbNIGAgZmi9e+2JHPd6i6idRuqivyicIkA==
 
 abbrev@1:
   version "1.1.1"
@@ -2465,6 +2478,11 @@ csso@~2.3.1:
   dependencies:
     clap "^1.0.9"
     source-map "^0.5.3"
+
+csstype@^3.0.3:
+  version "3.1.0"
+  resolved "https://registry.npmmirror.com/csstype/-/csstype-3.1.0.tgz#4ddcac3718d787cf9df0d1b7d15033925c8f29f2"
+  integrity sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==
 
 cuint@^0.2.2:
   version "0.2.2"

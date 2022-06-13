@@ -10,7 +10,7 @@
         <li v-for="note in trashNotes" :key="note.id" @keyup.delete="onDelete">
           <router-link :to="`/trash?noteId=${note.id}`">
             <span class="date">{{note.updatedAtFriendly}}</span>
-            <span class="title">{{note.title}}</span>          
+            <span class="title">{{note.title}}</span>
           </router-link>
         </li>
       </ul>
@@ -23,8 +23,8 @@
         <span> | </span>
         <span> 所属笔记本: {{belongTo}}</span>
 
-        <a class="btn action rev" @click.prevent="onRevert">恢复笔记</a>
-        <a class="btn action del" @click.prevent="onDelete">彻底删除</a>
+        <a class="btn action rev" @click.prevent="onRevert"><Delete class="icon" theme="outline" fill="#333" size="14" />恢复笔记</a>
+        <a class="btn action del" @click.prevent="onDelete"><file-withdrawal class="icon" theme="outline" fill="#333" size="14" />彻底删除</a>
       </div>
       <div class="note-title">
         <span>{{curTrashNote.title}}</span>
@@ -39,6 +39,7 @@
 <script>
 import MarkdownIt from 'markdown-it';
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
+import { FileWithdrawal, Delete } from '@icon-park/vue';
 // 引入markdown 样式
 import '../assets/theme/github-markdown.css';
 import prism from 'markdown-it-prism';
@@ -58,6 +59,7 @@ md.use(prism, {defaultLanguage: 'clike'});
 			return {
 			}
 		},
+  	components: { FileWithdrawal, Delete },
     computed: {
       ...mapGetters(['trashNotes', 'curTrashNote', 'belongTo']),
 

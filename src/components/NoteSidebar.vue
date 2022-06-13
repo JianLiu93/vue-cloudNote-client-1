@@ -1,7 +1,7 @@
 <template>
 	<div id="note-side-bar">
 		<header>
-		<div class="btn add-note" @click="onAdd">添加笔记</div>
+		<div class="btn add-note" @click="onAdd"><span class="iconfont icon-plus" style="font-size:12px;"/>添加笔记</div>
 		<el-dropdown class="notebook-title" @command="handleCommand" placement="bottom">
 			<div class="el-dropdown-link">
 				<span>{{curBook.title}}</span><span class="iconfont icon-down"/>

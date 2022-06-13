@@ -2,12 +2,12 @@
 	<div id="side-bar">
 		<Avatar />
 		<div class="icons">
-			<router-link to="/notebooks" title="笔记本列表"><span class="iconfont icon-notebook"></span></router-link>
-			<router-link to="/note" title="编辑笔记"><span class="iconfont icon-note"></span></router-link>
-			<router-link to="/trash" title="回收站"><span class="iconfont icon-trash"></span></router-link>
+			<router-link to="/notebooks" title="笔记本列表"><notebook-one class="iconfont" theme="two-tone" :fill="['#fff','#333']" size="20" /></router-link>
+			<router-link to="/note" title="编辑笔记"><Notes class="iconfont" theme="two-tone" :fill="['#fff','#333']" size="20" /></router-link>
+			<router-link to="/trash" title="回收站"><recycle-bin class="iconfont" theme="two-tone" :fill="['#fff','#333']" size="20" /></router-link>
 		</div>
 		<div class="logout" @click="onLogout">
-			<span class="iconfont icon-logout"></span>
+			<span class="iconfont icon-logout" style="font-size:18px;"></span>
 		</div>
 	</div>
 </template>
@@ -15,10 +15,11 @@
 <script>
 	import Avatar from '@/components/Avatar.vue'
     import { mapActions } from 'vuex'
+	import { NotebookOne, Notes, RecycleBin } from '@icon-park/vue';
 
 	export default {
 		name: 'SideBar',
-  		components: { Avatar },
+  		components: { Avatar, NotebookOne, Notes, RecycleBin },
 		data() {
 			return {
 			}

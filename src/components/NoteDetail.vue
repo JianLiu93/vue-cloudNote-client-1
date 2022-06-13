@@ -13,8 +13,11 @@
 				<span>更新日期：{{curNote.updatedAtFriendly}}</span>
         		<span> | </span>
 				<span>{{statusText}}</span>
-				<span class="iconfont icon-delete" @click="onDeleteNote"/>
-				<span class="iconfont" @click="onMarkdown" :class="isShowPreview? 'icon-eye' : 'icon-edit'"/>
+				<Delete class="iconfont" theme="outline" fill="#333" size="18" @click="onDeleteNote" />
+				<Clear class="iconfont" theme="outline" fill="#333" size="18" @click="onClear" />
+				<slide-two v-if="isShowPreview" class="iconfont" theme="outline" fill="#333" size="18" @click="onMarkdown" />
+				<edit-two v-if="!isShowPreview" class="iconfont" theme="outline" fill="#333" size="18" @click="onMarkdown" />
+				<!-- <span class="iconfont" @click="onMarkdown" :class="isShowPreview? 'icon-eye' : 'icon-edit'"/> -->
 			</div>
 			<div class="note-title">
 				<input type="text" v-model="curNote.title" @keydown="statusText='正在输入...'" @input="onUpdateTitle" placeholder="输入标题">
@@ -35,6 +38,7 @@ import NoteSidebar from '@/components/NoteSidebar.vue';
 import _ from 'lodash';
 import MarkdownIt from 'markdown-it';
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import { EditTwo, SlideTwo, Delete, Clear } from '@icon-park/vue';
 //  codemirror 组件引入
 import { codemirror } from 'vue-codemirror';
 import 'codemirror/mode/markdown/markdown.js';
@@ -58,7 +62,7 @@ let statusTimer = null;
 
 	export default {
 		name: 'NoteDetail',
-  		components: { NoteSidebar, codemirror },
+  		components: { NoteSidebar, codemirror, EditTwo, SlideTwo, Delete, Clear },
 		
 		created() {
 			this.checkLogin({path: '/login'});
@@ -156,6 +160,24 @@ let statusTimer = null;
 				this.isShowPreview = !this.isShowPreview;
 				this.statusText = this.isShowPreview ? 'markdown预览中' : '已保存';
 			},
+			onClear() {
+				this.$confirm('确定要清除该页笔记内容吗？', {
+        		confirmButtonText: '确定',
+        		cancelButtonText: '取消',
+        		type: 'warning'
+				}).then(() => {
+				  if(!this.curNote.id) return;
+				  this.curNote.content = '';
+				  this.updateNote({noteId: this.curNote.id,
+				  title: this.curNote.title, content: this.curNote.content
+				  }).then(() => {
+				  	  this.statusText = '已保存';
+				    }).catch(err => {
+				  	console.log(err);
+				  	  this.statusText = '保存失败';
+				    });
+				});
+			}
 		}
 	}
 </script>

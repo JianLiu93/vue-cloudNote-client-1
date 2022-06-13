@@ -4,6 +4,7 @@
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   background-color: #eee;
+  caret-color: transparent;
 }
 #note-side-bar > header {
   background: #fefefe;

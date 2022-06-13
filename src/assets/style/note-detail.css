@@ -12,15 +12,15 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  caret-color: transparent;
 }
 .note-content.hidden {
   display: none;
 }
 .note-content .note-bar {
-  padding: 8px 20px;
+  padding: 8px 100px 8px 20px;
   border-bottom: 1px solid #ddd;
   text-align: left;
-  caret-color: transparent;
 }
 .note-content .note-bar:after {
   content: '';
@@ -36,6 +36,8 @@
 .note-content .note-bar .iconfont {
   float: right;
   margin-left: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
   font-size: 18px;
   color: #000;
   cursor: pointer;
@@ -59,6 +61,10 @@
   outline: none;
   font-size: 18px;
   text-align: left;
+}
+.note-content .note-title input:focus,
+.note-content .note-title span:focus {
+  caret-color: auto;
 }
 .note-content .editor {
   height: calc(100% - 70px);
