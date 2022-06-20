@@ -23,8 +23,8 @@
         <span> | </span>
         <span> 所属笔记本: {{belongTo}}</span>
 
-        <a class="btn action rev" @click.prevent="onRevert"><Delete class="icon" theme="outline" fill="#333" size="14" />恢复笔记</a>
-        <a class="btn action del" @click.prevent="onDelete"><file-withdrawal class="icon" theme="outline" fill="#333" size="14" />彻底删除</a>
+        <a class="btn action rev" @click.prevent="onRevert"><file-withdrawal class="icon" theme="outline" fill="#333" size="14" />恢复笔记</a>
+        <a class="btn action del" @click.prevent="onDelete"><Delete class="icon" theme="outline" fill="#333" size="14" />彻底删除</a>
       </div>
       <div class="note-title">
         <span>{{curTrashNote.title}}</span>
